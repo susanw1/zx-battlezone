@@ -8,8 +8,8 @@ Note that I was 17-18 when I wrote most of this, and Battlezone was the first bi
 
 Also note that I'm reading the titles and some of the symbols in the code to figure out what it does in the descriptions below. Don't take it as gospel though - it might be misleading. I didn't expect anyone would ever read these notes again, let alone put them on public display!
 
-* Red book [part 1](Red-book-scan1.pdf) (21 pages), [part 2](Red-book-scan2.pdf) (28 pages): Most of the code from 1983 was done in a red exercise book, scanned here in two parts for manageability. The quality is a bit low, because the spring binder somewhat jammed the scanner open - sorry. It should be adequate.
-  * Part 1:
+* Most of the code from 1983 was done in a red exercise book, scanned here in two parts for manageability. The quality is a bit low, because the spring binder somewhat jammed the scanner open - sorry. It should be adequate.
+  * [Part 1](Red-book-scan1.pdf) (21 pages):
     * pg 1: "DIV system" - just some notes and sketches.
     * pg 2: Some unidentified code, with a little picture of a BZ view at top.
     * pg 3: "DE=X BZ=Z" unidentified code - lots of bit shifting. Might be to do with rotational transform?
@@ -22,7 +22,7 @@ Also note that I'm reading the titles and some of the symbols in the code to fig
     * pg 18: "SAUCSTRAT" - how the saucer moves
     * pg 19-20: "MISSILES" - deciding if to create a Missile
     * pg 21: "MISSTRAT" - Missile movement strategy
-  * Part 2:
+  * [Part 2](Red-book-scan2.pdf) (28 pages):
     * pg 1: "BULLT" - (my) bullet existence (bullet = shell)
     * pg 2: PRSTA defn again...? Some diagrams about min/max X
     * pg 3-4: "HBULLT" - (his = enemy) bullet existence
