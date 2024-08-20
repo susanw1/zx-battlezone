@@ -1,4 +1,4 @@
-### Original Documentation
+### Original Design Notes
 
 These PDFs are scans of original design notes created between 1982-84 during the development of Quicksilva Battlezone.
 
