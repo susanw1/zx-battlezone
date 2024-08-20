@@ -12,11 +12,11 @@ This follows from discussions here: [https://spectrumcomputing.co.uk/forums](htt
 This is based on my recollection from 40 years ago. We can update this if it's wrong...
 
 Basic facts:
-* All machine code, no basic.
+* All machine code, no BASIC.
 * Disabled interrupts at the start and regularly used SP as an address register for stepping through tables.
 * Drawing is done on an offscreen buffer and LDIR'ed to the display.
   * I was unaware of performance issues around accessing lower RAM during display update.
-  * I never realized that LDIR was suboptimal, or that clearing the buffer could be done far quicker. Super-annoying, as I think buffer copying/clearing is the dominant time hog, overwhelming all the other performance optimizations I did elsewhere, at great cost to intelligibility and development time.
+  * I never realized that LDIR was suboptimal, or that clearing the buffer could be done far quicker. Really annoying, as I think buffer copying/clearing is the dominant time hog, overwhelming all the other performance optimizations I did elsewhere, at great cost to intelligibility and development time.
 * The coord system is signed 16-bit x,y,z, so +/-32768 in all axes - though nothing rotates in the y-axis, so only X-Z rotates. I think all angles were 8-bit 0-255. View is limited to only draw objects between a near and far limit (perhaps 3000<Z<30000?).
 * Coord system is _always_ centred on the player! Player is always at 0,0,0 staring down the Z-axis, and when the player moves and spins, in reality the entities in the world move and spin. Cumulative error over a long game can lead to surprises.
 * There are 4 obstacle objects (two cubes, pyramid and low block), initially positioned at (+/-16384, +/-16384). Only one object is ever visible at a time.
