@@ -1,7 +1,7 @@
 # zx-battlezone
 Battlezone, released by Quicksilva in 1984
 
-### Original Documentation
+### Original Design Notes
 
 See [document index](docs/index.md).
 
