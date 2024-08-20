@@ -50,6 +50,10 @@ Also note that I'm reading the titles and some of the symbols in the code to fig
 
 * Some fixed global memory location symbols: [Mem-locations.pdf](Mem-locations.pdf)  (1 page)
 
-* Locations of certain data regions: [Data-regions.pdf](Data-regions.pdf) (1 page)
+* Locations of certain data regions: [Data-regions.pdf](Data-regions.pdf) (2 pages)
+  * pg 1: Various data sets, eg the points and line definitions for the spinning QS logo and Battlezone title, the message area font (on top region during play), 1812 theme. Not sure why they're listed in a bizarre order.
+  * pg 2: Really unsure what this is - seems to be some kind of inventory of parts. It's labelled "3)", but I can find no "2)" or "1)" on any other page. The table at the bottom is a history of my Spectrum ownership!
 
+* Gameplay statistical rules defining which entities are created and how they move. Might supersede Red-book-part1 page 4 above : [Gameplay-stats.pdf](Gameplay-stats.pdf) (4 pages)
 
+* Design diagrams for entities : [Entity-designs.pdf](Entity-designs.pdf) (4 pages)
