@@ -32,8 +32,8 @@ Conventions:
 | `SAUOR` | Data | Saucer orientation | `Red-book-scan1` page 17 |  | Likely render or movement heading. |
 | `MISSILES` | Code | Missile existence/render routine | `Red-book-scan1` pages 19-20 |  | Calls `MISSTRAT` and perspective/radar code. |
 | `MISSTRAT` | Code | Missile strategy state machine | `Red-book-scan1` page 21; Susan recollection |  | Missiles zig-zag left/right, return to original path, and hop over obstacles. |
-| `MSTRJ` | Data | Missile strategy/state byte | `Red-book-scan1` page 6; Susan recollection |  | Encodes manoeuvre modes including up/down hop flags. |
-| `MSTRT` | Data | Missile strategy/state byte or related temporary | `Red-book-scan1` pages 20-21; Susan recollection |  | Needs reconciliation with `MSTRJ`; likely same concept or closely related notation. |
+| `MSTRJ` | Data | Missile strategy/action bitfield | `Red-book-scan1` page 6; Susan recollection |  | Encodes current missile action, including zig-zag and up/down obstacle-hop flags. |
+| `MSTRT` | Data | Unknown missile-related symbol | `Red-book-scan1` pages 20-21; Susan recollection |  | Not yet identified. Susan is confident `MSTRJ` is the missile action bitfield, so `MSTRT` should be treated as unresolved rather than assumed equivalent. |
 | `MSMCT` | Data | Missile manoeuvre counter | `Red-book-scan1` pages 6-7 |  | Page 6 gloss: "No. frame since manoeuvre". |
 | `MISCT` | Data | Missile count so far | `Red-book-scan1` page 6; Susan recollection |  | Difficulty increases by allowing one more zig per missile as the game progresses. |
 | `ZIG` | Data | Number of zigzags available | `Red-book-scan1` page 6; Susan recollection |  | Increases with missile number/difficulty. |
@@ -52,6 +52,8 @@ Conventions:
 | `OB4` | Data | Obstacle 4, low block | `Red-book-scan1` page 10 |  | Sketch confirms low rectangular block. |
 | `XLOC` | Data | X-local or transformed X coordinate slot | `Red-book-scan1` pages 1-3 |  | Early transform notes. |
 | `ZLOC` | Data | Z-local or transformed Z coordinate slot | `Red-book-scan1` pages 1-3 |  | Early transform notes. |
+| `SP1` | Data | Temporary storage for stack pointer | `Mem-locations.pdf`; Susan recollection |  | Used when `SP` is repurposed as a general address register inside a routine and must be restored before `CALL`/`RET`. |
+| `SP2` | Data | Secondary temporary storage for stack pointer | `Mem-locations.pdf`; Susan recollection |  | Likely used when `SP1` is already in use in a caller. |
 | `XPERS` | Data | X perspective value or pointer | `Red-book-scan1` pages 1, 15, 16, 17 |  | Mentioned in perspective-related pages. |
 | `YPERS` | Data | Y perspective value or pointer | `Red-book-scan1` pages 17, 19 |  |  |
 | `PERSP` | Code | Perspective routine | `Red-book-scan1` pages 15-17, 19 |  | Strong call-site evidence. |
@@ -79,6 +81,6 @@ Conventions:
 
 ## Immediate next mappings
 
-- Reconcile `MSTRJ` vs `MSTRT`.
+- Identify `MSTRT`.
 - Map `PRSTA` and `EXST1`/`EXST2` into concrete disassembly variables.
 - Locate `PERSP`, `LINCD`, `LNLPT`, `MESPR`, `RADAR`, and `POLCO` in `battlezone-skoolkit/sources/battlezone.skool`.

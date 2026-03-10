@@ -67,4 +67,7 @@ Legible entries include:
 Notes:
 
 - The right-hand column strongly suggests the page is using offsets from base addresses `65024`, `65074`, and `65100`.
+- Susan confirmed that the two-digit values are shorthand offsets from those base addresses.
+- Susan confirmed `SP1` is temporary storage for the stack pointer when `SP` is reused as a general address register inside a routine; it must be restored before any `CALL`/`RET`.
+- Susan suspects `SP2` serves the same purpose when `SP1` is already occupied in a caller.
 - This is one of the highest-value scans for later disassembly mapping.
