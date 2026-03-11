@@ -60,8 +60,12 @@ Conventions:
 | `LINCD` | Code | Line-code / line-definition selector | `Red-book-scan1` pages 15, 17, 20 |  | Likely chooses visible line sets by view. |
 | `LNLPT` | Code | Line plotting routine | `Red-book-scan1` pages 15-17, 20 |  | Strong call-site evidence. |
 | `RADAR` | Code | Radar update routine | `Red-book-scan1` pages 9, 19 |  |  |
-| `MESPR` | Code | Message print routine | `Red-book-scan1` pages 7, 9, 19 |  | Name strongly suggests message print. |
-| `MESER` | Code | Message erase routine | `zx-battlezone/docs/index.md`, `Red-book-scan2` index notes |  | Not yet seen directly in scan 1 except possible calls on page 9. |
+| `KEMPST` | Code | Kempston joystick decode routine | `Red-book-scan2` pages 9-10; `battlezone.skool` | `0xAD3E` | Reads port `0x1F` and converts Kempston directions/fire into the movement bitfield consumed by the input interpreter. |
+| `KEYIN` | Code | Keyboard/input interpretation block | `Red-book-scan2` pages 9-10; `battlezone.skool` | `0xA685` `[entry within larger routine]` | Merges Kempston and keyboard input, masks invalid movement bits near obstacles, and prepares movement/turn handling. |
+| `MESPR` | Code | Message/rectangle print routine | `Red-book-scan1` pages 7, 9, 19; `battlezone.skool` | `0x9452` | Copies a rectangular block described as destination, height, width, then data. Used for messages and other small UI blocks. |
+| `MESER` | Code | Message/rectangle erase routine | `zx-battlezone/docs/index.md`, `Red-book-scan2` index notes; `battlezone.skool` | `0x9476` | Erases a rectangle using the same descriptor format as `MESPR`. |
+| `SCOPR` | Code | Score-update routine | `Red-book-scan2` page 17; `battlezone.skool` | `0x94AC` | Adds a packed-BCD increment, checks the extra-life threshold, and falls through into `NUMBA`. |
+| `NUMBA` | Code | Number/score display routine | `Red-book-scan2` page 19; `battlezone.skool` | `0x94EC` | Renders the current packed-BCD value using the digit glyph table at `0xCD80`. |
 | `POLCO` | Code | Polar-coordinate helper or position/orientation calculator | `Red-book-scan1` pages 5, 19 |  | Name suggests polar conversion; needs code confirmation. |
 | `MATOLT` | Code | Maths/helper routine, exact expansion unclear | `Red-book-scan1` page 15 |  | Needs code confirmation. |
 | `MATRT1` | Code | Maths/helper routine, exact expansion unclear | `Red-book-scan1` page 15 |  | Needs code confirmation. |
@@ -83,4 +87,5 @@ Conventions:
 
 - Identify `MSTRT`.
 - Map `PRSTA` and `EXST1`/`EXST2` into concrete disassembly variables.
-- Locate `PERSP`, `LINCD`, `LNLPT`, `MESPR`, `RADAR`, and `POLCO` in `battlezone-skoolkit/sources/battlezone.skool`.
+- Locate `PERSP`, `LINCD`, `LNLPT`, `RADAR`, and `POLCO` in `battlezone-skoolkit/sources/battlezone.skool`.
+- Map `SCREEN`, `KBORD INTERPRETATION`, `TABS`, and `LINCDS`.
