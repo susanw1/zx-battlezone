@@ -13,9 +13,9 @@ Conventions:
 
 | Symbol | Kind | Meaning | Evidence | Address | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `EXST1` | Data | Entity existence bitfield | `Red-book-scan1` page 4 |  | Page 4 lists bits for old tank, super tank, saucer, missile, my bullet, his bullet. |
-| `EXST2` | Data | Explosion existence bitfield mirroring `EXST1` categories | `Red-book-scan1` page 4 |  | Page 4 says "as above but explosions". |
-| `PRSTA` | Data | Priority/state field controlling active subsystems or render/update order | `Red-book-scan1` pages 7, 10, 11; `zx-battlezone/README.md` |  | Needs confirmation from code. Page 10 lists entity/state values against it. |
+| `EXST1` | Data | Active-entity existence/state byte | `Red-book-scan1` page 4; `battlezone.skool` | `0xFE6A` `[probable]` | Current best read: tank/supertank, saucer, missile, my bullet, and his bullet occupy the upper bits; the low bits are reused for obstacle/object family state (`0` none, `1` low block, `2` cube family, `3` pyramid). |
+| `EXST2` | Data | Deferred explosion / respawn state byte mirroring `EXST1` categories | `Red-book-scan1` page 4; `battlezone.skool` | `0xFE6C` `[probable]` | Set when entities transition into explosion/effect paths; high bits are later ORed back into `0xFE6A` before reinitialisation at `0x9644`. |
+| `PRSTA` | Data | Current render/visibility state byte | `Red-book-scan1` pages 7, 10, 11; `battlezone.skool` | `0xFE6E` `[probable]` | Best current match for the notebook's state layout: visibility-tested/render-active counterpart to `EXST1`, including obstacle/object low-bit state. Current best refinement: the high nibble mirrors the visible/drawable subset of `EXST1`. |
 | `TKSTR` | Data | Tank strategy/state byte | `Red-book-scan1` pages 10, 13; Susan recollection |  | Tracks modes such as trundling, stopping, and attacking. |
 | `TKMCT` | Data | Tank manoeuvre/frame counter | `Red-book-scan1` pages 7, 13; Susan recollection |  | Attack transition delay likely depends on score. |
 | `TKDIR` | Data | Tank direction | `Red-book-scan1` pages 5, 9, 11, 13 |  | Often stored alongside `TKOR`. |
@@ -105,7 +105,7 @@ Conventions:
   - `0xD4A2` = probable shared cube line-data family for `OB1VU` / `OB2VU`
   - `0xD554` = probable pyramid line-data family for `OB3VU`
   - `0xD5F6` = probable low-block line-data family for `OB4VU`
-  - `0xD488` remains unresolved
+  - `0xD488` remains unresolved but now looks like a fallback no-hit / no-draw obstacle family
 - The explosion / crash side now has a cautious first-pass mapping:
   - `0xD6B8` = probable `TKEXV` family, used by the tank / supertank explosion path
   - `0xD7CC` = probable `SAEXV` family, used by the saucer explosion path
