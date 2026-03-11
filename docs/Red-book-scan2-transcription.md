@@ -359,27 +359,78 @@ Topic:
 
 - Table locations from `45500`
 
-Visible content from sampled page 23:
+Visible content:
 
-- `XTAB`
-- `ZTAB`
-- `YLOC`
-- `SXLOC`
-- `SZLOC`
-- `SYLOC`
-- `TXLOC`
-- `STXLC`
-- `MSXLC`
-- `MBXLC`
-- `HBXLC`
-- `OBXLC`
-- `SGXLC`
-- `XPERS`
-- `YPERS`
+- Page 23 establishes the shared table-family starts and major offsets.
+- Clearly legible symbols include:
+  - `XTAB`
+  - `ZTAB`
+  - `YLOC`
+  - `SXLOC`
+  - `SZLOC`
+  - `SYLOC`
+  - `SXLC1`
+  - `SZLC1`
+  - `MYLC1`
+  - `TXLOC`
+  - `STXLC`
+  - `MSXLC`
+  - `MBXLC`
+  - `HBXLC`
+  - `OBXLC`
+  - `SGXLC`
+  - `XPERS`
+  - `YPERS`
+
+- Page 24 is the clearest X-table location inventory. Legible entries include:
+  - `OBYLC 14 56256`
+  - `TKEXYL 16 56270`
+  - `SAEXYL 10 56326`
+  - `MSEXYL 8 56366`
+  - `BLEXYL 20 56402`
+  - `SXLOC 12 56422`
+  - `SZLOC 12 56470`
+  - `SYLOC 12 56518`
+  - `TXLOC 32 56530`
+  - `STXLC 24 56562`
+  - `MSXLC 14 56586`
+  - `MBLXL 8 56600`
+  - `HBLXLC 8 56608`
+  - `OBXLC 14 56616`
+  - `EXXLC 56 56630`
+  - `EXBXL 20 56686`
+
+- Page 25 is the matching Z/perspective inventory. Legible entries include:
+  - `TZLOC 32 56706`
+  - `STZLC 24 56738`
+  - `MSZLC 14 56762`
+  - `MBZL 8 56776`
+  - `HBZLC 8 56784`
+  - `OBZLC 14 56792`
+  - `EXZLC 56 56806`
+  - `EXBZL 20 56862`
+  - `SXLC1 12 56882`
+  - `SZLC1 12 56894`
+  - `MYLC1 14 56906`
+  - `SGYL1 56 56920`
+  - `XPERS 56 56976`
+  - `YPERS 56 57032`
 
 Notes:
 
-- These pages look like offset maps for per-entity coordinate/perspective data blocks.
+- These pages are now good enough to drive concrete SkoolKit table labels.
+- Page 24/25 readings match the current binary very well, especially:
+  - `HBLXLC = 56608 = 0xDD20`
+  - `OBXLC = 56616 = 0xDD28`
+  - `EXXLC = 56630 = 0xDD36`
+  - `EXBXL = 56686 = 0xDD6E`
+  - `HBZLC = 56784 = 0xDDD0`
+  - `OBZLC = 56792 = 0xDDD8`
+  - `EXZLC = 56806 = 0xDDE6`
+  - `EXBZL = 56862 = 0xDE1E`
+  - `YPERS = 57032 = 0xDEC8`
+- `XPERS = 56976 = 0xDE90` now looks intentional rather than erroneous.
+- Current best explanation: `XPERS` and `YPERS` are reserved output buffers for the perspective stage, and the code often seeds `FE38` / `FE3A` with interior end-pointers and then writes downward using `SP`/`PUSH`, so later reads from `0xDE92`, `0xDE98`, etc. do not contradict a true buffer base at `0xDE90`.
 
 ## Page 26
 

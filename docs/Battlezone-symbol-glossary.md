@@ -54,8 +54,8 @@ Conventions:
 | `ZLOC` | Data | Z-local or transformed Z coordinate slot | `Red-book-scan1` pages 1-3 |  | Early transform notes. |
 | `SP1` | Data | Temporary storage for stack pointer | `Mem-locations.pdf`; Susan recollection |  | Used when `SP` is repurposed as a general address register inside a routine and must be restored before `CALL`/`RET`. |
 | `SP2` | Data | Secondary temporary storage for stack pointer | `Mem-locations.pdf`; Susan recollection |  | Likely used when `SP1` is already in use in a caller. |
-| `XPERS` | Data | X perspective value or pointer | `Red-book-scan1` pages 1, 15, 16, 17 |  | Mentioned in perspective-related pages. |
-| `YPERS` | Data | Y perspective value or pointer | `Red-book-scan1` pages 17, 19 |  |  |
+| `XPERS` | Data | X perspective output buffer / workspace pointer target | `Red-book-scan1` pages 1, 15, 16, 17; `Red-book-scan2` page 25; `battlezone.skool`; Susan follow-up | `0xDE90` `[buffer base]`; `FE38` `[workspace end-pointer]` | The notebook's `56976` reading is consistent with the code using `SP` as a descending write pointer into the buffer. Current code often samples interior words such as `0xDE92`, `0xDE98`, and `0xDE9E`. |
+| `YPERS` | Data | Y perspective output buffer / workspace pointer target | `Red-book-scan1` pages 17, 19; `Red-book-scan2` page 25; `battlezone.skool` | `0xDEC8` `[buffer base]`; `FE3A` `[workspace end-pointer]` | Used in the same descending-`SP` style as `XPERS`; current code often samples interior words such as `0xDED0` and `0xDED6`. |
 | `PERSP` | Code | Perspective routine | `Red-book-scan1` pages 15-17, 19 |  | Strong call-site evidence. |
 | `LINCD` | Code | Line-code / line-definition selector | `Red-book-scan1` pages 15, 17, 20 |  | Likely chooses visible line sets by view. |
 | `LNLPT` | Code | Line plotting routine | `Red-book-scan1` pages 15-17, 20 |  | Strong call-site evidence. |
@@ -81,17 +81,35 @@ Conventions:
 | `SCORE` | Data | Score | `Red-book-scan1` pages 5, 7 |  |  |
 | `SHIP` | Data | Lives/ships count | `Red-book-scan1` page 7 |  | Likely matches `Lives` variable in current disassembly. |
 | `TRIGA` | Data | Trig angle or trig-table selector | `Red-book-scan1` pages 7, 11 |  | Needs code confirmation. |
-| `XTAB` | Data | X-coordinate table | `Red-book-scan1` page 9; `docs/index.md` |  | Likely entity vertex or object position table. |
-| `ZTAB` | Data | Z-coordinate table | `Red-book-scan1` page 9; `docs/index.md` |  | Likely entity vertex or object position table. |
+| `YLOC` | Data | Y-location / Y-coordinate table family | `Red-book-scan2` pages 23-25; `battlezone.skool` | `0xDBB8` `[table start]`; `FE34` `[workspace pointer]` | Current code often uses interior offsets such as `0xDBC0`. |
+| `XTAB` | Data | X-coordinate table | `Red-book-scan1` page 9; `Red-book-scan2` pages 23-25; `battlezone.skool` | `0xD9D0` `[table start]`; `FE32`/`FE42` `[workspace pointers]` | Current code also uses interior offsets such as `0xD9D8`. |
+| `ZTAB` | Data | Z-coordinate table | `Red-book-scan1` page 9; `Red-book-scan2` pages 23-25; `battlezone.skool` | `0xDAC4` `[table start]`; `FE36`/`FE46` `[workspace pointers]` | Current code also uses interior offsets such as `0xDACC`. |
+| `HBLXLC` | Data | Hostile-bullet X-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDD20` | Loaded into the `FE32` table pointer for hostile bullet drawing. |
+| `HBLZLC` | Data | Hostile-bullet Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDDD0` | Loaded into the `FE36` table pointer for hostile bullet drawing. |
+| `OBXLC` | Data | Obstacle X-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDD28` | Loaded into the `FE32` table pointer for obstacle drawing. |
+| `OBZLC` | Data | Obstacle Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDDD8` | Loaded into the `FE36` table pointer for obstacle drawing. |
+| `EXXLC` | Data | Explosion X-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDD36` | Loaded into the `FE32` table pointer for explosion-related drawing. |
+| `EXZLC` | Data | Explosion Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDDE6` | Loaded into the `FE36` table pointer for explosion-related drawing. |
+| `EXBXL` | Data | Explosion auxiliary X-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDD6E` | Used by the later explosion/secondary-effect path starting at `0xAAAF`. |
+| `EXBZL` | Data | Explosion auxiliary Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDE1E` | Used by the later explosion/secondary-effect path starting at `0xAAAF`. |
 | `VU-A` | Data | View bucket A | `Red-book-scan1` pages 15-16, 20 |  | One of several view-dependent line sets. |
 | `VU-B` | Data | View bucket B | `Red-book-scan1` pages 15-16, 20 |  |  |
 | `VU-C` | Data | View bucket C | `Red-book-scan1` pages 15-16, 20 |  |  |
 | `VU-D` | Data | View bucket D | `Red-book-scan1` pages 15-16 |  |  |
 | `VU-E` | Data | View bucket E | `Red-book-scan1` pages 15-16 |  |  |
 
+## Current `LINCDS` notes
+
+- The `0xA37B` selector in `battlezone.skool` is now treated as a probable obstacle-view `LINCDS` chooser.
+- Current best read:
+  - `0xD4A2` = probable shared cube line-data family for `OB1VU` / `OB2VU`
+  - `0xD554` = probable pyramid line-data family for `OB3VU`
+  - `0xD5F6` = probable low-block line-data family for `OB4VU`
+  - `0xD488` remains unresolved
+
 ## Immediate next mappings
 
 - Identify `MSTRT`.
 - Map `PRSTA` and `EXST1`/`EXST2` into concrete disassembly variables.
 - Locate `PERSP`, `LINCD`, `LNLPT`, `RADAR`, and `POLCO` in `battlezone-skoolkit/sources/battlezone.skool`.
-- Map `SCREEN`, `KBORD INTERPRETATION`, `TABS`, and `LINCDS`.
+- Tighten the remaining `LINCDS` / view-line-family mappings (`D488`, `D4A2`, `D554`, `D5F6`, `D95C`) against the notebook pages.
