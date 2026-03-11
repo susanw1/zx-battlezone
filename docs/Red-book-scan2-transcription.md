@@ -329,6 +329,17 @@ Visible content:
 Notes:
 
 - This is one of the most valuable pages in the whole archive for mapping shape tables and visible-line tables.
+- Current code-backed read:
+  - the obstacle-view selector around `0xA37B` is a good match for:
+    - `OB1VU` / `OB2VU` -> shared family around `0xD4A2`
+    - `OB3VU` -> family around `0xD554`
+    - `OB4VU` -> family around `0xD5F6`
+  - the explosion families loaded by the later crash/explosion paths are current best matches for:
+    - `TKEXV` -> line-data family around `0xD6B8`
+    - `SAEXV` -> line-data family around `0xD7CC`
+    - `MSEXV` -> line-data family around `0xD8B0`
+    - `EXBLT` -> line-data family around `0xD95C`
+- These should still be treated as current-best mappings rather than final proofs.
 
 ## Page 22
 

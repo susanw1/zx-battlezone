@@ -106,6 +106,12 @@ Conventions:
   - `0xD554` = probable pyramid line-data family for `OB3VU`
   - `0xD5F6` = probable low-block line-data family for `OB4VU`
   - `0xD488` remains unresolved
+- The explosion / crash side now has a cautious first-pass mapping:
+  - `0xD6B8` = probable `TKEXV` family, used by the tank / supertank explosion path
+  - `0xD7CC` = probable `SAEXV` family, used by the saucer explosion path
+  - `0xD8B0` = probable `MSEXV` family, used by the missile explosion path
+  - `0xD95C` = probable `EXBLT` family, used by the later bullet-impact / bullet-explosion path
+  - `0xD392`, `0xD3DC`, `0xD43E` are current best candidates for the `CRAVU` family used by the crash-view selector at `0xA080`
 
 ## Immediate next mappings
 
