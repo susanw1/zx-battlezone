@@ -330,10 +330,12 @@ Notes:
 
 - This is one of the most valuable pages in the whole archive for mapping shape tables and visible-line tables.
 - Current code-backed read:
-  - the obstacle-view selector around `0xA37B` is a good match for:
-    - `OB1VU` / `OB2VU` -> shared family around `0xD4A2`
-    - `OB3VU` -> family around `0xD554`
-    - `OB4VU` -> family around `0xD5F6`
+  - `0xD488` is now the best current match for a shared bullet visible-line family (`MBLVU` / `HBLVU`)
+  - the obstacle-view selector around `0xA37B` now looks like a family-base selector followed by a three-way view offset at `0xA576`
+  - current best obstacle-family mapping:
+    - `OB1VU` / `OB2VU` -> shared cube-family base `0xD4A2`, with probable view slots at `0xD4A2`, `0xD4DE`, `0xD51A`
+    - `OB3VU` -> pyramid-family base `0xD554`, with probable view slots at `0xD554`, `0xD590`, `0xD5CC`
+    - `OB4VU` -> low-block-family base `0xD5F6`, with probable view slots at `0xD5F6`, `0xD632`, `0xD66E`
   - the explosion families loaded by the later crash/explosion paths are current best matches for:
     - `TKEXV` -> line-data family around `0xD6B8`
     - `SAEXV` -> line-data family around `0xD7CC`

@@ -58,7 +58,7 @@ Conventions:
 | `YPERS` | Data | Y perspective output buffer / workspace pointer target | `Red-book-scan1` pages 17, 19; `Red-book-scan2` page 25; `battlezone.skool` | `0xDEC8` `[buffer base]`; `FE3A` `[workspace end-pointer]` | Used in the same descending-`SP` style as `XPERS`; current code often samples interior words such as `0xDED0` and `0xDED6`. |
 | `PERSP` | Code | Perspective routine | `Red-book-scan1` pages 15-17, 19 |  | Strong call-site evidence. |
 | `LINCD` | Code | Line-code / line-definition selector | `Red-book-scan1` pages 15, 17, 20 |  | Likely chooses visible line sets by view. |
-| `LNLPT` | Code | Line plotting routine | `Red-book-scan1` pages 15-17, 20 |  | Strong call-site evidence. |
+| `LNLPT` | Code | Line plotting routine | `Red-book-scan1` pages 15-17, 20; `battlezone.skool` | `0x805C` `[probable]` | Strong current-best match: consumes `LINCDS` blocks as a 1-byte line count followed by one four-pointer record per line. |
 | `RADAR` | Code | Radar update routine | `Red-book-scan1` pages 9, 19 |  |  |
 | `SCREEN` | Code | Late-frame screen/hill/status pipeline | `Red-book-scan2` page 7; `battlezone.skool`; Susan recollection | `0xA5AE` `[phase within MainGameLoop]` | Current best match is the phase that calls `MHLC`, `SHLC`, two unresolved hill plot helpers, then `SDRAW`. |
 | `SDRAW` | Code | Present-and-clear screen draw routine | `Red-book-scan2` page 7; `battlezone.skool` | `0x8C3C` | Copies the off-screen buffers to the visible Spectrum screen and clears the working buffers afterwards. |
@@ -92,6 +92,13 @@ Conventions:
 | `EXZLC` | Data | Explosion Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDDE6` | Loaded into the `FE36` table pointer for explosion-related drawing. |
 | `EXBXL` | Data | Explosion auxiliary X-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDD6E` | Used by the later explosion/secondary-effect path starting at `0xAAAF`. |
 | `EXBZL` | Data | Explosion auxiliary Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDE1E` | Used by the later explosion/secondary-effect path starting at `0xAAAF`. |
+| `MBLVU` | Data | My-bullet visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD488` `[probable shared family]` | Current best read is that the same line-data family is reused for both my bullet and hostile bullet. |
+| `HBLVU` | Data | Hostile-bullet visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD488` `[probable shared family]` | Current best read is that the same line-data family is reused for both my bullet and hostile bullet. |
+| `OB1VU` | Data | Obstacle 1 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD4A2` `[probable shared cube-family base]` | Current best read: shared with `OB2VU`; three current-best view slots at `0xD4A2`, `0xD4DE`, `0xD51A`. |
+| `OB2VU` | Data | Obstacle 2 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD4A2` `[probable shared cube-family base]` | Current best read: shared with `OB1VU`; three current-best view slots at `0xD4A2`, `0xD4DE`, `0xD51A`. |
+| `OB3VU` | Data | Obstacle 3 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD554` `[probable family base]` | Current best read: three current-best view slots at `0xD554`, `0xD590`, `0xD5CC`. |
+| `OB4VU` | Data | Obstacle 4 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD5F6` `[probable family base]` | Current best read: three current-best view slots at `0xD5F6`, `0xD632`, `0xD66E`. |
+| `CRAVU` | Data | Crash-view visible-line family | `Red-book-scan2` page 17; `battlezone.skool` | `0xD392`, `0xD3DC`, `0xD43E` `[probable view families]` | The crash-view selector at `0xA080` chooses one of three line-data families directly. |
 | `VU-A` | Data | View bucket A | `Red-book-scan1` pages 15-16, 20 |  | One of several view-dependent line sets. |
 | `VU-B` | Data | View bucket B | `Red-book-scan1` pages 15-16, 20 |  |  |
 | `VU-C` | Data | View bucket C | `Red-book-scan1` pages 15-16, 20 |  |  |
@@ -102,10 +109,14 @@ Conventions:
 
 - The `0xA37B` selector in `battlezone.skool` is now treated as a probable obstacle-view `LINCDS` chooser.
 - Current best read:
-  - `0xD4A2` = probable shared cube line-data family for `OB1VU` / `OB2VU`
-  - `0xD554` = probable pyramid line-data family for `OB3VU`
-  - `0xD5F6` = probable low-block line-data family for `OB4VU`
-  - `0xD488` remains unresolved but now looks like a fallback no-hit / no-draw obstacle family
+  - `0xD488` = probable shared bullet visible-line family (`MBLVU` / `HBLVU`)
+  - `0xD4A2` = probable shared cube-family line-data base for `OB1VU` / `OB2VU`
+    - current best view slots: `0xD4A2`, `0xD4DE`, `0xD51A`
+  - `0xD554` = probable pyramid-family line-data base for `OB3VU`
+    - current best view slots: `0xD554`, `0xD590`, `0xD5CC`
+  - `0xD5F6` = probable low-block-family line-data base for `OB4VU`
+    - current best view slots: `0xD5F6`, `0xD632`, `0xD66E`
+  - current best interpretation of the selector at `0xA576`: it adds `0x00`, `0x3C`, or `0x78` to the family base to pick one of three precomputed obstacle-view slots
 - The explosion / crash side now has a cautious first-pass mapping:
   - `0xD6B8` = probable `TKEXV` family, used by the tank / supertank explosion path
   - `0xD7CC` = probable `SAEXV` family, used by the saucer explosion path
@@ -118,4 +129,4 @@ Conventions:
 - Identify `MSTRT`.
 - Map `PRSTA` and `EXST1`/`EXST2` into concrete disassembly variables.
 - Locate `PERSP`, `LINCD`, `LNLPT`, `RADAR`, and `POLCO` in `battlezone-skoolkit/sources/battlezone.skool`.
-- Tighten the remaining `LINCDS` / view-line-family mappings (`D488`, `D4A2`, `D554`, `D5F6`, `D95C`) against the notebook pages.
+- Tighten the remaining `LINCDS` / view-line-family mappings, especially the exact crash-view ordering and the non-obstacle families around `D392..D43E` and `D95C`.
