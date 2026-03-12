@@ -92,13 +92,14 @@ Conventions:
 | `EXZLC` | Data | Explosion Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDDE6` | Loaded into the `FE36` table pointer for explosion-related drawing. |
 | `EXBXL` | Data | Explosion auxiliary X-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDD6E` | Used by the later explosion/secondary-effect path starting at `0xAAAF`. |
 | `EXBZL` | Data | Explosion auxiliary Z-location table | `Red-book-scan2` pages 24-25; `battlezone.skool` | `0xDE1E` | Used by the later explosion/secondary-effect path starting at `0xAAAF`. |
+| `MISS` | Data | Missile visible-line family with three ordered view slots | `Red-book-scan2` page 21; `battlezone.skool` | `0xD392`, `0xD3DC`, `0xD43E` `[probable]` | Current best read: selected at `0xA080` in the missile render path by comparing projected X values at `0xDE98/0xDE9A/0xDE9C`. `0xD3DC` is the larger middle family; `0xD392` and `0xD43E` look like mirrored side-view counterparts. |
 | `MBLVU` | Data | My-bullet visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD488` `[probable shared family]` | Current best read is that the same line-data family is reused for both my bullet and hostile bullet. |
 | `HBLVU` | Data | Hostile-bullet visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD488` `[probable shared family]` | Current best read is that the same line-data family is reused for both my bullet and hostile bullet. |
 | `OB1VU` | Data | Obstacle 1 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD4A2` `[probable shared cube-family base]` | Current best read: shared with `OB2VU`; three current-best view slots at `0xD4A2`, `0xD4DE`, `0xD51A`. |
 | `OB2VU` | Data | Obstacle 2 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD4A2` `[probable shared cube-family base]` | Current best read: shared with `OB1VU`; three current-best view slots at `0xD4A2`, `0xD4DE`, `0xD51A`. |
 | `OB3VU` | Data | Obstacle 3 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD554` `[probable family base]` | Current best read: three current-best view slots at `0xD554`, `0xD590`, `0xD5CC`. |
 | `OB4VU` | Data | Obstacle 4 visible-line family | `Red-book-scan2` page 21; `battlezone.skool` | `0xD5F6` `[probable family base]` | Current best read: three current-best view slots at `0xD5F6`, `0xD632`, `0xD66E`. |
-| `CRAVU` | Data | Crash-view visible-line family | `Red-book-scan2` page 17; `battlezone.skool` | `0xD392`, `0xD3DC`, `0xD43E` `[probable view families]` | The crash-view selector at `0xA080` chooses one of three line-data families directly. |
+| `CRAVU` | Data | Crash-view visible-line family | `Red-book-scan2` page 17 |  | Currently unresolved again. Earlier mapping to `0xD392/0xD3DC/0xD43E` was wrong; those addresses are a better match for page-21 `MISS`. |
 | `VU-A` | Data | View bucket A | `Red-book-scan1` pages 15-16, 20 |  | One of several view-dependent line sets. |
 | `VU-B` | Data | View bucket B | `Red-book-scan1` pages 15-16, 20 |  |  |
 | `VU-C` | Data | View bucket C | `Red-book-scan1` pages 15-16, 20 |  |  |
@@ -122,11 +123,12 @@ Conventions:
   - `0xD7CC` = probable `SAEXV` family, used by the saucer explosion path
   - `0xD8B0` = probable `MSEXV` family, used by the missile explosion path
   - `0xD95C` = probable `EXBLT` family, used by the later bullet-impact / bullet-explosion path
-  - `0xD392`, `0xD3DC`, `0xD43E` are current best candidates for the `CRAVU` family used by the crash-view selector at `0xA080`
+  - `0xD392`, `0xD3DC`, `0xD43E` are now better understood as ordered missile-view families from page-21 `MISS`
+  - `CRAVU` remains unresolved
 
 ## Immediate next mappings
 
 - Identify `MSTRT`.
 - Map `PRSTA` and `EXST1`/`EXST2` into concrete disassembly variables.
 - Locate `PERSP`, `LINCD`, `LNLPT`, `RADAR`, and `POLCO` in `battlezone-skoolkit/sources/battlezone.skool`.
-- Tighten the remaining `LINCDS` / view-line-family mappings, especially the exact crash-view ordering and the non-obstacle families around `D392..D43E` and `D95C`.
+- Tighten the remaining `LINCDS` / view-line-family mappings, especially the exact crash-view mapping for notebook `CRAVU` and the remaining non-obstacle families around `D95C`.
